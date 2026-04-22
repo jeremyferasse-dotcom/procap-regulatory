@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procap' Regulatory — Avril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #c8392b;
+    --accent2: #1a3a5c;
+    --gold: #7a5900;
+    --muted: #5a5248;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#f5f0e8 !important; }
+  body { color:var(--ink); font-family:'Source Serif 4',Georgia,serif; font-size:15px; line-height:1.65; max-width:820px; margin:0 auto; padding:40px 24px 80px; text-align:justify; hyphens:auto; }
+
+  /* Éléments non justifiés */
+  h1,h2,h3,h4,h5,
+  .masthead,.masthead-eyebrow,.masthead h1,
+  .dateline-bar,.market-strip,.ticker-item,
+  .alert-banner,.alert-label,
+  .section-header,.section-header h2,
+  .kicker,.deck,.tag,
+  .agenda-date,.sources-block,.source-pill,.source-link,
+  .stat-block .num,.stat-block .label,
+  .footer,.footer p,.masthead-mini,.issue-badge { text-align:left; hyphens:none; }
+  .masthead,.masthead h1,.masthead-eyebrow { text-align:center; }
+  .stat-block .num { text-align:center; }
+  .stat-block .label { text-align:center; }
+  .stat-block p { text-align:left !important; hyphens:none; }
+  p, .headline-story p, .col-story p, .story-card p,
+  .feature-block p, .pullquote p { text-align:justify; hyphens:auto; }
+
+  /* MASTHEAD */
+  .masthead { text-align:center; border-top:4px solid var(--ink); border-bottom:4px solid var(--ink); padding:28px 0 22px; }
+  .masthead::before { content:''; display:block; border-top:1px solid var(--ink); margin-bottom:10px; }
+  .masthead::after { content:''; display:block; border-bottom:1px solid var(--ink); margin-top:10px; }
+  .masthead-eyebrow { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .masthead h1 { font-family:'Playfair Display',serif; font-size:48px; font-weight:900; letter-spacing:-1px; line-height:1; text-transform:uppercase; white-space:nowrap; }
+  .masthead h1 span { color:var(--accent); }
+  .masthead-sub { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-top:8px; text-align:center; }
+  .masthead-sub-line1 { display:block; }
+  .masthead-sub-line2 { display:block; margin-top:3px; }
+
+  /* DATELINE */
+  .dateline-bar { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--ink); padding:7px 0; margin-bottom:28px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1px; color:var(--muted); }
+  .issue-badge { background:var(--accent); color:var(--paper); padding:2px 8px; font-size:9px; letter-spacing:2px; }
+
+  /* STATUT STRIP — barre noire avec indicateurs réglementaires */
+  .market-strip { background:var(--ink); color:var(--paper); padding:10px 18px; display:flex; justify-content:space-around; align-items:center; margin:0 0 22px; flex-wrap:wrap; gap:8px; }
+  .ticker-item { text-align:center; }
+  .ticker-item .sym { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; color:#aaa; display:block; }
+  .ticker-item .val { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500; display:block; line-height:1.3; }
+  .ticker-item .chg { font-family:'IBM Plex Mono',monospace; font-size:9.5px; }
+  .en-vigueur { color:#68d391; }
+  .en-cours    { color:#fbd38d; }
+  .urgent-col  { color:#fc8181; }
+
+  /* ALERT BANNER */
+  .alert-banner { background:var(--accent); color:var(--paper); padding:10px 18px; margin-bottom:22px; display:flex; align-items:center; gap:12px; }
+  .alert-banner .alert-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; background:var(--paper); color:var(--accent); padding:2px 7px; white-space:nowrap; }
+  .alert-banner p { font-size:12.5px; font-weight:600; line-height:1.4; text-align:left; }
+
+  /* SECTIONS */
+  .section-header { border-top:3px solid var(--ink); border-bottom:1px solid var(--ink); padding:5px 0 4px; margin-bottom:16px; }
+  .section-header.no-top { border-top:none; }
+  .section-header h2 { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:4px; text-transform:uppercase; font-weight:500; }
+  .section-header h2 span { color:var(--accent); }
+
+  /* LAYOUT */
+  .grid-main-side { display:grid; grid-template-columns:2fr 1fr; gap:0; }
+  .grid-2col { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .grid-3col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; }
+
+  /* HEADLINE STORY */
+  .headline-story { padding-right:28px; border-right:1px solid var(--ink); }
+  .headline-story .kicker { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+  .headline-story h3 { font-family:'Playfair Display',serif; font-size:28px; font-weight:900; line-height:1.15; margin-bottom:12px; }
+  .headline-story .deck { font-size:14px; font-weight:600; line-height:1.5; color:var(--accent2); margin-bottom:14px; font-style:italic; text-align:left; }
+  .headline-story p { font-size:13.5px; line-height:1.7; color:#1a1a1a; margin-bottom:12px; }
+
+  /* SIDE COL */
+  .side-col { padding-left:20px; }
+
+  /* STORY CARDS */
+  .story-card { padding:12px 0; border-bottom:1px solid #c8c0b0; }
+  .story-card:last-child { border-bottom:none; }
+  .story-card .kicker { font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .story-card h4 { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; line-height:1.25; margin-bottom:6px; }
+  .story-card p { font-size:12.5px; line-height:1.65; color:#1a1a1a; }
+
+  /* RULES */
+  .full-rule { border:none; border-top:2px solid var(--ink); margin:22px 0; }
+
+  /* COL STORY */
+  .col-story { padding:0 22px 0 0; border-right:1px solid var(--ink); }
+  .col-story:last-child { border-right:none; padding-right:0; padding-left:22px; }
+  .col-story .kicker { font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+  .col-story h3 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; line-height:1.25; margin-bottom:10px; }
+  .col-story p { font-size:13px; line-height:1.7; color:#1a1a1a; margin-bottom:10px; }
+
+  /* PULLQUOTE */
+  .pullquote { border-left:4px solid var(--accent); padding:12px 16px; margin:14px 0; background:var(--cream); }
+  .pullquote p { font-family:'Playfair Display',serif; font-size:15px; font-style:italic; line-height:1.4; color:var(--accent2); text-align:left; }
+  .pullquote cite { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--muted); display:block; margin-top:6px; }
+
+  /* FEATURE BLOCK */
+  .feature-block { background:var(--accent2); color:var(--paper); padding:22px 24px; margin:0 0; }
+  .feature-block .kicker { font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:3px; text-transform:uppercase; color:#8eb4d8; margin-bottom:8px; }
+  .feature-block h3 { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; line-height:1.2; margin-bottom:10px; }
+  .feature-block p { font-size:12.5px; line-height:1.7; color:#cdd8e3; margin-bottom:8px; }
+  .feature-block ul { margin:8px 0 0 16px; }
+  .feature-block ul li { font-size:12px; color:#cdd8e3; margin-bottom:5px; text-align:left; }
+
+  /* STAT BLOCKS */
+  .stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; margin-bottom:22px; }
+  .stat-block { padding:0 16px 0 0; border-right:1px solid #c8c0b0; }
+  .stat-block:last-child { border-right:none; padding-left:16px; padding-right:0; }
+  .stat-block:nth-child(2) { padding:0 16px; }
+  .stat-block .num { font-family:'Playfair Display',serif; font-size:36px; font-weight:900; color:var(--accent); line-height:1; display:block; text-align:center; }
+  .stat-block .label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; text-align:center; }
+  .stat-block p { font-size:12px; line-height:1.55; color:#333; text-align:left !important; hyphens:none; }
+
+  /* AGENDA */
+  .agenda-item { display:flex; gap:14px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #c8c0b0; }
+  .agenda-item:last-child { border-bottom:none; }
+  .agenda-date { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--paper); background:var(--accent2); padding:3px 7px; white-space:nowrap; min-width:80px; text-align:center; margin-top:2px; }
+  .agenda-date.hot { background:var(--accent); }
+  .agenda-date.gold { background:var(--gold); }
+  .agenda-content h5 { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; margin-bottom:2px; }
+  .agenda-content p { font-size:11.5px; color:var(--muted); }
+
+  /* TAGS */
+  .tag { display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:1.5px; text-transform:uppercase; border:1px solid currentColor; padding:1px 5px; margin-right:4px; margin-bottom:4px; }
+  .tag-reg { color:var(--accent2); } .tag-mkt { color:var(--accent); } .tag-tech { color:var(--gold); } .tag-fr { color:var(--muted); }
+
+  /* LINKS */
+  .sources-block { margin-top:10px; padding-top:8px; border-top:1px dashed #c8c0b0; display:flex; flex-wrap:wrap; gap:6px; }
+  .source-pill { display:inline-flex; align-items:center; gap:4px; font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--paper); background:var(--accent2); text-decoration:none; padding:3px 8px; transition:background 0.2s; }
+  .source-pill:hover { background:var(--accent); }
+  .source-pill::before { content:'↗ '; font-size:8px; }
+  .source-link { display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--accent2); text-decoration:none; border-bottom:1px solid var(--accent2); padding-bottom:1px; margin-top:6px; }
+  .source-link:hover { color:var(--accent); border-color:var(--accent); }
+  .source-link::before { content:'→ '; }
+
+  /* FOOTER */
+  .footer { border-top:3px solid var(--ink); padding-top:16px; margin-top:32px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+  .footer p { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--muted); line-height:1.7; }
+  .masthead-mini { font-family:'Playfair Display',serif; font-size:20px; font-weight:900; letter-spacing:-0.5px; }
+  .masthead-mini span { color:var(--accent); }
+
+  @media (max-width:600px) {
+    .grid-3col,.grid-2col,.grid-main-side,.stat-row { grid-template-columns:1fr; }
+    .headline-story { padding-right:0; border-right:none; }
+    .side-col { padding-left:0; border-top:1px solid var(--ink); margin-top:16px; padding-top:16px; }
+    .col-story { padding:0 0 16px; border-right:none; border-bottom:1px solid var(--ink); }
+    .col-story:last-child { padding-left:0; }
+    .masthead h1 { font-size:36px; }
+    .alert-banner { flex-direction:column; gap:6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-eyebrow">La lettre mensuelle de veille réglementaire · Finance de marché</div>
+  <h1>Procap' <span>Regulatory</span></h1>
+  <div class="masthead-sub">
+    <span class="masthead-sub-line1">Marchés · Post-Trade · Fiscalité · Offre &amp; Services</span>
+    <span class="masthead-sub-line2">Technique &amp; Digital</span>
+  </div>
+</header>
+
+<!-- DATELINE -->
+<div class="dateline-bar">
+  <span>Édition N° 01 — Avril 2026</span>
+  <span>Europe · Monde</span>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--muted); margin-top:-20px; margin-bottom:22px; padding-bottom:6px;">
+  Rédacteur : Jeremy FERASSE — Pôle Innovation et Développement
+</div>
+
+<!-- À LA UNE BANNER -->
+<div style="background:var(--accent); color:var(--paper); text-align:center; padding:8px 0; margin-bottom:16px;">
+  <span style="font-family:'Playfair Display',serif; font-size:16px; font-weight:700; letter-spacing:2px; text-transform:uppercase;">À la une</span>
+</div>
+
+<!-- ═══ SECTION 1 — MARCHÉS & POST-TRADE ═══ -->
+<div class="section-header no-top">
+  <h2>Marchés <span>&amp;</span> Post-Trade · T+1 · CSDR · EMIR · SFTR · SRD2</h2>
+</div>
+
+<div class="grid-main-side" style="margin-bottom:22px;">
+  <div class="headline-story">
+    <div class="kicker">Dossier principal · CSDR Refit · UE + UK + Suisse</div>
+    <h3>T+1 : la phase de développement industriel est lancée pour octobre 2027</h3>
+    <div class="deck">L'UE, le Royaume-Uni et la Suisse ont synchronisé leur bascule au 11 octobre 2027. L'industrie a jusqu'à fin 2026 pour finaliser toutes ses solutions techniques.</div>
+    <p>Après le succès nord-américain de mai 2024 — avec une réduction de plus de 20 % des exigences de marge au NSCC — l'Europe entre dans sa phase la plus opérationnelle. L'ESMA a publié ses recommandations finales d'amendements aux RTS de discipline de règlement (CSDR Refit). Un « user manual » a été diffusé en janvier 2026 pour guider les acteurs pendant la phase de développement.</p>
+    <p>Les grandes obligations opérationnelles : allocations et confirmations complètes en <strong>J0 avant 23h00 CET</strong>, instructions de règlement soumises avant minuit J0, formats lisibles par machine, implémentation obligatoire des fonctionnalités <em>hold &amp; release</em>, règlement partiel automatique et auto-collatéralisation.</p>
+    <div class="pullquote">
+      <p>« La SIU et T+1 créent ensemble les fondations d'une messagerie standardisée et de SSI rationalisés — rendant les transactions transfrontalières presque aussi fluides que les opérations domestiques. »</p>
+      <cite>— BNY Mellon, octobre 2025</cite>
+    </div>
+    <p><strong>Périmètre :</strong> tous les instruments financiers MiFID négociés sur une plateforme UE et réglés dans un CSD européen. Les SFTs documentées comme deux jambes liées sont exemptées. Les dérivés ne se réglant pas au CSD sont hors scope.</p>
+    <div>
+      <span class="tag tag-mkt">Urgent · Fin 2026</span>
+      <span class="tag tag-reg">CSDR</span>
+      <span class="tag tag-reg">Post-trade</span>
+    </div>
+    <div class="sources-block">
+      <a href="https://securities.cib.bnpparibas/t1-in-europe-whats-next-for-the-eu-the-uk-and-switzerland/" target="_blank" class="source-pill">BNP Securities — T+1 Europe</a>
+      <a href="https://www.pwc.co.uk/industries/financial-services/understanding-regulatory-developments/eu-industry-committee-finalises-roadmap-to-transition.html" target="_blank" class="source-pill">PwC — Roadmap T+1</a>
+      <a href="https://www.bny.com/corporate/global/en/insights/from-siu-to-t-1-settlement-europe.html" target="_blank" class="source-pill">BNY — SIU &amp; T+1</a>
+    </div>
+  </div>
+
+  <div class="side-col">
+    <div class="section-header" style="border-top:1px solid var(--ink);">
+      <h2>En bref</h2>
+    </div>
+    <div class="story-card">
+      <div class="kicker">EMIR 3 · Reporting dérivés</div>
+      <h4>203 champs EMIR Refit : +65 % vs EMIR initial</h4>
+      <p>L'ESMA engage une revue holistique des reportings MiFIR + EMIR + SFTR en Q2 2026. L'harmonisation avec les standards ISO est le chantier clé. Charge opérationnelle en forte hausse pour les équipes reporting.</p>
+      <a href="https://www.kaizenreporting.com/emir-refit-implications-for-the-sftr-review/" target="_blank" class="source-link">Kaizen — EMIR &amp; SFTR</a>
+    </div>
+    <div class="story-card">
+      <div class="kicker">SFTR · Financement de titres</div>
+      <h4>SFTR : revue holistique ESMA en Q2 2026</h4>
+      <p>Les enseignements d'EMIR Refit alimenteront la future révision SFTR. Anticiper dès maintenant une hausse du nombre de champs reportables et une harmonisation accrue avec les standards ISO.</p>
+    </div>
+    <div class="story-card">
+      <div class="kicker">SRD2 · Droits des actionnaires</div>
+      <h4>SRD2 : évaluation Commission en cours</h4>
+      <p>La Commission prépare une évaluation de SRD2 sur l'identification des actionnaires et le vote transfrontalier. Les prestataires de services titres sont en première ligne.</p>
+    </div>
+    <div class="story-card">
+      <div class="kicker">SIU · Union des marchés</div>
+      <h4>SIU remplace officiellement la CMU</h4>
+      <p>La Savings and Investment Union vise à orienter l'épargne des ménages européens vers les marchés en réduisant la fragmentation post-trade, en lien direct avec T+1.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- ═══ SECTION 2 — PROTECTION INVESTISSEURS ═══ -->
+<div class="section-header">
+  <h2>Protection <span>investisseurs</span> · MiFID 3 · RIS · TFR · ESAP · FIDA</h2>
+</div>
+
+<div class="grid-2col" style="margin-bottom:22px;">
+  <div class="col-story">
+    <div class="kicker">Retail Investment Strategy · MiFID 3</div>
+    <h3>RIS / MiFID 3 : PFOF banni au 30 juin 2026, niveau 2 en Q4</h3>
+    <p>Le paquet <strong>Retail Investment Strategy (RIS)</strong> est en phase de trilogue. Il cible trois axes : confiance des épargnants, rapport qualité-prix et conflits d'intérêts liés aux rétrocessions.</p>
+    <p>Un accord politique a été trouvé sur l'interdiction du <strong>Payment For Order Flow (PFOF)</strong> pour les clients retail. La période transitoire pour les opérations domestiques expire le <strong>30 juin 2026</strong>. L'ESMA remettra ses avis techniques de niveau 2 en Q4 2026. Impact direct sur les modèles de distribution et d'exécution des PSI.</p>
+    <div>
+      <span class="tag tag-mkt">PFOF interdit · 30 juin</span>
+      <span class="tag tag-reg">MiFID</span>
+      <span class="tag tag-reg">Protection retail</span>
+    </div>
+    <div class="sources-block">
+      <a href="https://riskandcompliance.freshfields.com/post/102iiuy/feels-like-mifid-iii-the-commission-proposal-on-the-eu-retail-investment-strat" target="_blank" class="source-pill">Freshfields — RIS</a>
+      <a href="https://www.bankinghub.eu/finance-risk/mifid-regulatory-changes-capital-markets" target="_blank" class="source-pill">BankingHub — MiFID III</a>
+    </div>
+  </div>
+  <div class="col-story">
+    <div class="kicker">FIDA · Open Finance · ESAP</div>
+    <h3>FIDA suspendu, ESAP en route pour 2027</h3>
+    <p>Le règlement <strong>FIDA</strong> (Financial Data Access) reste dans l'annexe des propositions pendantes. Les négociations en trilogue sont <strong>temporairement suspendues</strong> depuis début 2026, notamment sur l'accès des Big Tech américains à l'écosystème. Mise en œuvre potentielle repoussée à 2027.</p>
+    <p>En parallèle, l'<strong>ESAP</strong> (European Single Access Point) avance : accès centralisé aux données financières et ESG des entreprises européennes. Première phase publique attendue en <strong>2027</strong>, avec des outils d'IA intégrés par l'ESMA.</p>
+    <div>
+      <span class="tag tag-reg">FIDA</span>
+      <span class="tag tag-reg">ESAP</span>
+      <span class="tag tag-tech">Open Finance</span>
+    </div>
+    <div class="sources-block">
+      <a href="https://www.powens.com/fr/blog/eu-reglementations-fintech-2026/" target="_blank" class="source-pill">Powens — FIDA 2026</a>
+      <a href="https://www.capgemini.com/fr-fr/perspectives/blog/fida-chemin-open-finance-europe/" target="_blank" class="source-pill">Capgemini — FIDA</a>
+      <a href="https://www.esma.europa.eu/sites/default/files/2026-02/ESMA22-50751485-1625_-_2027-2029_Programming_Document.pdf" target="_blank" class="source-pill">ESMA — Programme 2027-2029</a>
+    </div>
+  </div>
+</div>
+
+<!-- TFR FEATURE BLOCK -->
+<div class="feature-block" style="margin-bottom:22px;">
+  <div class="kicker">TFR · Travel Rule · Crypto-actifs · Réglementation UE</div>
+  <h3>TFR : les CASPs sous surveillance, premières vérifications en cours</h3>
+  <p>Le règlement sur les transferts de fonds (TFR) étendu aux crypto-actifs est en vigueur depuis 2024. Les CASPs doivent collecter et transmettre les données du donneur d'ordre et du bénéficiaire pour tout transfert. Les autorités (AMF, ACPR) procèdent aux premières vérifications de conformité en 2026.</p>
+  <ul>
+    <li><strong>Données obligatoires :</strong> nom, numéro de compte, identifiant unique du donneur d'ordre et du bénéficiaire</li>
+    <li><strong>Seuil :</strong> applicable dès le premier euro pour les transferts entre CASPs (pas de seuil minimal)</li>
+    <li><strong>Lien avec MiCA :</strong> les CASPs agréés MiCA intègrent le TFR dans leur programme de conformité AML</li>
+  </ul>
+</div>
+
+<hr class="full-rule">
+
+<!-- ═══ SECTION 3 — FISCALITÉ ═══ -->
+<div class="section-header">
+  <h2>Fiscalité <span>·</span> FASTER · Management packages · Fiscalité US · Taxe allemande · Taxe belge</h2>
+</div>
+
+<div class="grid-3col" style="margin-bottom:22px;">
+  <div style="padding-right:22px; border-right:1px solid var(--ink);">
+    <div class="kicker">FASTER · Dir. UE 2025/50</div>
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; line-height:1.25; margin-bottom:10px;">FASTER : retenues à la source harmonisées</h3>
+    <p style="font-size:13px; line-height:1.7; color:#1a1a1a; margin-bottom:10px; text-align:justify; hyphens:auto;">La directive <strong>FASTER</strong> a été publiée au JOUE le 10 janvier 2025 (directive 2025/50). Elle instaure deux mécanismes : <strong>dégrèvement à la source</strong> (taux réduit immédiat) et <strong>remboursement rapide</strong> (délai max. 60 jours civils). Un certificat de résidence fiscale numérique harmonisé sera créé, valable dans toute l'UE. Les intermédiaires financiers agréés jouent un rôle central dans la certification. Transposition prévue 2028-2030.</p>
+    <span class="tag tag-reg">FASTER</span>
+    <span class="tag tag-tech">Transposition 2028-2030</span>
+    <div class="sources-block">
+      <a href="https://lesfrancais.press/directive-faster-le-salut-fiscal-des-actionnaires-expatries-dans-lunion-europeenne/" target="_blank" class="source-pill">Les Français — FASTER</a>
+    </div>
+  </div>
+  <div style="padding:0 22px; border-right:1px solid var(--ink);">
+    <div class="kicker">France · Management packages · PTP USA</div>
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; line-height:1.25; margin-bottom:10px;">Titres &amp; packages : enjeux fiscaux 2026</h3>
+    <p style="font-size:13px; line-height:1.7; color:#1a1a1a; margin-bottom:10px; text-align:justify; hyphens:auto;">La fiscalité des <strong>management packages</strong> (AGA, BSPCE, stock-options) fait l'objet d'une attention accrue. Requalifications en salaires actives en 2026. Art. 119 bis A CGI clarifié depuis le 1er janvier 2026 pour les non-résidents.</p>
+    <p style="font-size:13px; line-height:1.7; color:#1a1a1a; text-align:justify; hyphens:auto;">Les <strong>titres PTP américains</strong> présentent une fiscalité complexe : retenues à la source à plusieurs niveaux, FATCA/CRS renforcés, risque ECI pour les institutionnels.</p>
+    <span class="tag tag-fr">France</span>
+    <span class="tag tag-tech">PTP · USA</span>
+    <div class="sources-block">
+      <a href="https://www.avocats.ey.com/fr_fr/fiscalite/loi-de-finances-pour-2025" target="_blank" class="source-pill">EY — Loi finances 2025</a>
+    </div>
+  </div>
+  <div style="padding-left:22px;">
+    <div class="kicker">Belgique · Allemagne · TTF Europe</div>
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; font-weight:700; line-height:1.25; margin-bottom:10px;">TOB belge &amp; taxe allemande</h3>
+    <p style="font-size:13px; line-height:1.7; color:#1a1a1a; margin-bottom:10px; text-align:justify; hyphens:auto;">La <strong>TOB belge</strong> s'applique à : 0,12 % (obligations/fonds capitalisation), 0,35 % (actions/ETF distribution), 1,32 % (fonds capitalisation à revenu variable). Les PSI collectent et reversent la taxe pour leurs clients non-résidents belges.</p>
+    <p style="font-size:13px; line-height:1.7; color:#1a1a1a; text-align:justify; hyphens:auto;">La <strong>TTF européenne</strong> reste en négociation à 10 États membres. Débat persistant sur le périmètre des instruments concernés.</p>
+    <span class="tag tag-reg">TOB Belgique</span>
+    <span class="tag tag-reg">TTF Europe</span>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- ═══ SECTION 4 — OFFRE & SERVICES ═══ -->
+<div class="section-header">
+  <h2>Offre <span>&amp;</span> Services · Label ISR · Multidevises · Trading fractionné · Offre QI</h2>
+</div>
+
+<div class="grid-main-side" style="margin-bottom:22px;">
+  <div class="headline-story">
+    <div class="kicker">Label ISR · Finance durable · France &amp; Europe</div>
+    <h3>Label ISR : 1 045 fonds, 800 Md€, nouvelles exigences dès 2026</h3>
+    <div class="deck">Premier label de finance durable en Europe, le label ISR franchit un nouveau cap réglementaire en 2026 avec des exigences climatiques renforcées.</div>
+    <p>En janvier 2026, le label ISR compte plus de <strong>1 045 fonds labellisés</strong> représentant <strong>plus de 800 milliards d'euros d'encours</strong>. Depuis la réforme de mars 2024, le référentiel exclut les entreprises exploitant charbon ou hydrocarbures non conventionnels, et celles lançant de nouveaux projets fossiles.</p>
+    <p>Nouveauté 2026 : <strong>au moins 15 %</strong> des entreprises des secteurs à fort impact climatique doivent présenter une trajectoire alignée avec l'Accord de Paris (seuil progressif jusqu'à 20 %). La <strong>double matérialité</strong> est systématiquement intégrée.</p>
+    <div class="pullquote">
+      <p>« Le label ISR est le seul label de finance durable reconnu à l'échelle de l'Union européenne — une position stratégique unique dans un marché en quête de repères. »</p>
+      <cite>— Ministère de l'Économie, 2026</cite>
+    </div>
+    <p>Les nouvelles exclusions couvrent également le tabac, les violations des droits humains et les armes controversées. Les sociétés de gestion doivent adapter leurs processus avant le prochain renouvellement.</p>
+    <div>
+      <span class="tag tag-tech">15 % impact · Janv. 2026</span>
+      <span class="tag tag-tech">ISR</span>
+      <span class="tag tag-tech">ESG</span>
+    </div>
+    <div class="sources-block">
+      <a href="https://www.hellocarbo.com/blog/communaute/label-isr/" target="_blank" class="source-pill">HelloCarbo — Label ISR</a>
+      <a href="https://www.economie.gouv.fr/particuliers/gerer-mon-argent/gerer-mon-budget-et-mon-epargne/label-investissement-socialement-responsable-isr-comment-ca-marche" target="_blank" class="source-pill">Economie.gouv — ISR</a>
+      <a href="https://www.lelabelisr.fr/comment-investir/fonds-labellises/" target="_blank" class="source-pill">lelabelisr.fr</a>
+    </div>
+  </div>
+
+  <div class="side-col">
+    <div class="section-header" style="border-top:1px solid var(--ink);">
+      <h2>Tendances</h2>
+    </div>
+    <div class="story-card">
+      <div class="kicker">Euronext · Multidevises</div>
+      <h4>Équités multidevises : impacts post-trade à anticiper</h4>
+      <p style="font-size:12px;">Euronext déploie la négociation multidevises (USD, GBP, EUR sur mêmes instruments). Les PSI et dépositaires anticipent les impacts sur le règlement, la réconciliation et les rapprochements comptables en multi-devise.</p>
+    </div>
+    <div class="story-card">
+      <div class="kicker">Trading fractionné · MiFID</div>
+      <h4>Fractions d'actions : cadre en cours de clarification</h4>
+      <p style="font-size:12px;">L'AMF et l'ESMA travaillent sur le cadre MiFID applicable : nature juridique, best execution, protection des clients. Des clarifications sont attendues dans le cadre de la RIS en 2026-2027.</p>
+    </div>
+    <div class="story-card">
+      <div class="kicker">Offre QI · Investisseurs qualifiés</div>
+      <h4>Statut QI : documentation renforcée</h4>
+      <p style="font-size:12px;">La justification du statut QI et la documentation d'adéquation font l'objet d'une attention accrue lors des contrôles SPOT de l'AMF. Le seuil d'opt-up professionnel est débattu dans les trilogues RIS.</p>
+    </div>
+    <div class="story-card">
+      <div class="kicker">SFDR · Finance durable</div>
+      <h4>SFDR : révision et simplification annoncées</h4>
+      <p style="font-size:12px;">La Commission prépare une révision du SFDR pour simplifier les obligations ESG. L'EIOPA surveille les risques de greenwashing en 2026. Les fonds Art. 8 et 9 restent sous surveillance accrue.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- ═══ SECTION 5 — TECHNIQUE & DIGITAL ═══ -->
+<div class="section-header">
+  <h2>Technique <span>&amp;</span> Digital · DORA · DDADUE · SFTR · E-Facture · Finance verte</h2>
+</div>
+
+<div class="grid-2col" style="margin-bottom:22px;">
+  <div class="col-story">
+    <div class="kicker">DORA · En vigueur depuis janvier 2025</div>
+    <h3>DORA : les 5 piliers et les premiers contrôles 2026</h3>
+    <p>Le règlement DORA s'applique depuis le <strong>17 janvier 2025</strong> à toutes les entités financières et à leurs <strong>prestataires ICT tiers critiques</strong> (cloud, data centers, éditeurs logiciels). L'ACPR a tenu un webinaire de suivi en janvier 2026.</p>
+    <p><strong>5 piliers :</strong> gestion des risques ICT · gestion et classification des incidents · tests de résilience numérique (TLPT) · gestion du risque tiers ICT · partage d'informations entre entités. Les registres de contrats ICT doivent être transmis aux superviseurs. Premiers contrôles thématiques ACPR/AMF attendus en 2026.</p>
+    <div>
+      <span class="tag tag-mkt">En vigueur · Contrôles 2026</span>
+      <span class="tag tag-reg">DORA</span>
+      <span class="tag tag-reg">Cyber</span>
+    </div>
+    <div class="sources-block">
+      <a href="https://acpr.banque-france.fr/fr/reglementation/focus-sur-la-reglementation/transverse/digital-operational-resilience-act-dora" target="_blank" class="source-pill">ACPR — DORA</a>
+      <a href="https://www.amf-france.org/en/news-publications/depth/dora" target="_blank" class="source-pill">AMF — DORA</a>
+    </div>
+  </div>
+  <div class="col-story">
+    <div class="kicker">DDADUE · E-Facture · Finance verte</div>
+    <h3>Trois chantiers simultanés en 2026</h3>
+    <p>La <strong>loi DDADUE</strong> transpose plusieurs directives financières en droit français (MiFID, CSDR Refit, PSD3). Les ordonnances d'habilitation sont attendues courant 2026 avec des délais serrés pour les acteurs concernés.</p>
+    <p>L'obligation de <strong>facturation électronique</strong> suit son calendrier progressif. Le secteur financier bénéficie d'adaptations spécifiques pour les opérations exonérées de TVA. La <strong>taxonomie verte européenne</strong> continue de s'élargir, avec une surveillance EIOPA accrue sur les risques de greenwashing dans les reportings ESG.</p>
+    <div>
+      <span class="tag tag-reg">DDADUE</span>
+      <span class="tag tag-fr">E-Facture</span>
+      <span class="tag tag-tech">Finance verte</span>
+    </div>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- CHIFFRES CLÉS -->
+<div class="section-header">
+  <h2>Chiffres <span>clés</span> réglementaires</h2>
+</div>
+<div class="stat-row" style="margin-bottom:22px;">
+  <div class="stat-block" style="text-align:center;">
+    <span class="num">11/10</span>
+    <span class="label">Go-live T+1 · 2027</span>
+    <p>Date synchronisée UE + UK + Suisse. La phase de développement industrie doit être achevée fin 2026. Phase de tests tout au long de 2027 avant le go-live.</p>
+  </div>
+  <div class="stat-block" style="text-align:center;">
+    <span class="num">800 Md€</span>
+    <span class="label">Encours Label ISR · Janv. 2026</span>
+    <p>Premier label de finance durable en Europe. 1 045 fonds labellisés. Depuis 2026, 15 % des secteurs à fort impact climatique doivent être alignés sur l'Accord de Paris.</p>
+  </div>
+  <div class="stat-block" style="text-align:center;">
+    <span class="num">203</span>
+    <span class="label">Champs EMIR Refit</span>
+    <p>Hausse de +65 % vs l'EMIR initial. La revue SFTR prévue en Q2 2026 devrait s'en inspirer. Charge opérationnelle en forte hausse pour les équipes reporting.</p>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- AGENDA -->
+<div class="section-header">
+  <h2>Agenda <span>réglementaire</span> · 2026-2027</h2>
+</div>
+<div style="margin-bottom:22px;">
+  <div class="agenda-item">
+    <span class="agenda-date hot">30 JUIN 2026</span>
+    <div class="agenda-content">
+      <h5>Fin période transitoire PFOF</h5>
+      <p>Expiration de l'exemption domestique PFOF. Interdiction généralisée pour les clients retail. Impact direct sur les modèles de distribution et d'exécution des PSI.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date hot">T2 2026</span>
+    <div class="agenda-content">
+      <h5>ESMA — Revue holistique MiFIR / EMIR / SFTR</h5>
+      <p>Publication du rapport de revue transversale des reportings transactionnels. Point d'attention majeur pour les équipes conformité et reporting.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date">FIN 2026</span>
+    <div class="agenda-content">
+      <h5>T+1 — Fin de la phase de développement industrie</h5>
+      <p>Toutes les solutions techniques (allocations J0, SSI, formats machine-readable, hold &amp; release, règlement partiel auto) doivent être opérationnelles.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date">T4 2026</span>
+    <div class="agenda-content">
+      <h5>RIS / MiFID 3 — Avis techniques ESMA niveau 2</h5>
+      <p>Publication des technical advices ESMA sur la Retail Investment Strategy. Base pour les textes d'application sur les inducements et la suitability.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date gold">2026-2027</span>
+    <div class="agenda-content">
+      <h5>E-facturation — Déploiement progressif</h5>
+      <p>Mise en œuvre progressive en France. Adaptations spécifiques pour les entités financières sur les flux exonérés de TVA.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date">2027</span>
+    <div class="agenda-content">
+      <h5>ESAP Phase 1 — Ouverture du portail public européen</h5>
+      <p>Premier accès public à l'European Single Access Point. Données financières et ESG des entreprises européennes centralisées.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date">2027</span>
+    <div class="agenda-content">
+      <h5>FIDA — Mise en œuvre potentielle Open Finance</h5>
+      <p>Si les trilogues reprennent et aboutissent. Ouverture de l'accès aux données épargne, assurance-vie, prêts et investissements pour les tiers agréés.</p>
+    </div>
+  </div>
+  <div class="agenda-item">
+    <span class="agenda-date hot">11 OCT. 2027</span>
+    <div class="agenda-content">
+      <h5>T+1 Go-live — UE + UK + Suisse simultanément</h5>
+      <p>Bascule vers le règlement en J+1. Réduction estimée de 20 %+ des exigences de marge aux CCPs. Après les répétitions générales du S1 2027.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="full-rule">
+
+<!-- SOURCES -->
+<div class="section-header">
+  <h2>Sources <span>·</span> Références réglementaires</h2>
+</div>
+<div style="margin-bottom:22px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
+  <div>
+    <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; text-align:left;">Régulateurs officiels</p>
+    <div style="display:flex; flex-direction:column; gap:5px;">
+      <a href="https://www.esma.europa.eu" target="_blank" class="source-link" style="display:inline-block;">esma.europa.eu</a>
+      <a href="https://www.amf-france.org" target="_blank" class="source-link" style="display:inline-block;">amf-france.org</a>
+      <a href="https://acpr.banque-france.fr" target="_blank" class="source-link" style="display:inline-block;">acpr.banque-france.fr</a>
+      <a href="https://www.eba.europa.eu" target="_blank" class="source-link" style="display:inline-block;">eba.europa.eu</a>
+    </div>
+  </div>
+  <div>
+    <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; text-align:left;">Post-trade &amp; Marchés</p>
+    <div style="display:flex; flex-direction:column; gap:5px;">
+      <a href="https://securities.cib.bnpparibas" target="_blank" class="source-link" style="display:inline-block;">BNP Paribas Securities Services</a>
+      <a href="https://www.afme.eu" target="_blank" class="source-link" style="display:inline-block;">afme.eu</a>
+      <a href="https://www.pwc.co.uk/industries/financial-services" target="_blank" class="source-link" style="display:inline-block;">PwC Financial Services</a>
+      <a href="https://www.bny.com/corporate/global/en/insights" target="_blank" class="source-link" style="display:inline-block;">BNY — Insights</a>
+    </div>
+  </div>
+  <div>
+    <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; text-align:left;">Fiscalité &amp; Expertise juridique</p>
+    <div style="display:flex; flex-direction:column; gap:5px;">
+      <a href="https://www.avocats.ey.com/fr_fr/fiscalite" target="_blank" class="source-link" style="display:inline-block;">EY Société d'Avocats</a>
+      <a href="https://riskandcompliance.freshfields.com" target="_blank" class="source-link" style="display:inline-block;">Freshfields — Risk &amp; Compliance</a>
+      <a href="https://www.powens.com/fr/blog" target="_blank" class="source-link" style="display:inline-block;">Powens — Fintech réglementation</a>
+      <a href="https://www.lelabelisr.fr" target="_blank" class="source-link" style="display:inline-block;">lelabelisr.fr</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>
+    <div class="masthead-mini">Procap' <span>Regulatory</span></div>
+    <p style="margin-top:6px;">Newsletter mensuelle · Édition N° 01 · Avril 2026</p>
+    <p>Marchés · Post-Trade · Fiscalité · Offre &amp; Services · Technique &amp; Digital</p>
+  </div>
+</footer>
+
+</body>
+</html>
